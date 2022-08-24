@@ -38,7 +38,7 @@ struct ContentView: View {
             let sleepTime = wakeUp - prediction.actualSleep
             return sleepTime
         } catch {
-            return Date.now
+            return wakeUp
         }
     }
     
