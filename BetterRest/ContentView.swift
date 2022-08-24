@@ -53,18 +53,17 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Picker("\(sleepAmount.formatted()) hours", selection: $sleepAmount)
-                    {
-                        ForEach(1...17, id: \.self) {
-                            Text("\(( (Double($0) * 0.25) + 3.75 ).formatted())") // It works 🤓
-                        }
-                    }
+                    Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
                 } header: {
                     Text("Desired amount of sleep")
                 }
                 
                 Section {
-                    Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20)
+                    Picker("Number of cups", selection: $coffeeAmount) {
+                        ForEach(1 ... 20, id: \.self) {
+                            Text($0 == 1 ? "1 cup" : "\($0) cups")
+                        }
+                    }
                 } header: {
                     Text("Daily coffee intake")
                 }
