@@ -27,24 +27,23 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Form {
-                VStack (alignment: .leading, spacing: 0) {
+                Section {
+                    DatePicker("Time", selection: $wakeUp, displayedComponents: .hourAndMinute)
+//                        .labelsHidden()
+                } header: {
                     Text("When do you want to wake up?")
-                        .font(.headline)
-                    DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
                 }
                 
-                
-                VStack (alignment: .leading, spacing: 0) {
-                    Text("Desired amount of sleep")
-                        .font(.headline)
+                Section {
                     Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
+                } header: {
+                    Text("Desired amount of sleep")
                 }
                 
-                VStack (alignment: .leading, spacing: 0) {
-                    Text("Daily coffee intake")
-                        .font(.headline)
+                Section {
                     Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20)
+                } header: {
+                    Text("Daily coffee intake")
                 }
             }
             .navigationTitle("BetterRest")
@@ -63,6 +62,7 @@ struct ContentView: View {
         do {
             let config = MLModelConfiguration()
             let model = try SleepCalculator(configuration: config)
+            
             let components = Calendar.current.dateComponents([.hour, .minute], from: wakeUp)
             let hour = (components.hour ?? 0) * 60 * 60
             let minute = (components.minute ?? 0) * 60
