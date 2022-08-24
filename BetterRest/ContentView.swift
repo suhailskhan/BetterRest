@@ -35,7 +35,12 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
+                    Picker("\(sleepAmount.formatted()) hours", selection: $sleepAmount)
+                    {
+                        ForEach(1...17, id: \.self) {
+                            Text("\(( (Double($0) * 0.25) + 3.75 ).formatted())") // It works 🤓
+                        }
+                    }
                 } header: {
                     Text("Desired amount of sleep")
                 }
